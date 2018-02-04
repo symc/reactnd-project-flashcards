@@ -8,9 +8,16 @@ export default class DeckList extends Component {
   }
 
   componentDidMount() {
+    //clearDecks();
     getDecks().then((result) => {
       this.setState({decks: result});
     });
+  }
+
+  componentWillReceiveProps() {
+      getDecks().then((result) => {
+        this.setState({decks: result});
+      });
   }
 
   render() {
@@ -19,11 +26,23 @@ export default class DeckList extends Component {
       const decks = this.state.decks;
       return (
         <View style={{flex: 1}}>
-          {deckKeys.map((key) => {return <Text key={decks[key].title}>{`${decks[key].title}: ${decks[key].questions.length}`}</Text>})}
-          <Button 
-              title={'Press here for navigating to an individual deck'}
-              onPress={() => this.props.navigation.navigate('DeckDetail')}
-          />
+          {deckKeys.map((key) => {
+              return (
+                <View key={key} style={{flex: 1}}>
+                  <Text>Deck title: {decks[key].title}</Text>
+                  <Text>Number of cards: {decks[key].questions.length}</Text>
+                  <Button 
+                      title={'Show deck details'}
+                      onPress={() => this.props.navigation.navigate(
+                        'DeckDetail', {
+                          deckTitle: decks[key].title
+                        }
+                      )}
+                  />
+                </View>
+              );
+            }
+          )}
         </View>
       );
     } else {

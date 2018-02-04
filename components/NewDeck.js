@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text, View, TextInput, Button, StyleSheet } from 'react-native';
+import DismissKeyboard from 'dismissKeyboard';
 import { white, black } from '../utils/colors';
 import { saveDeckTitle } from '../utils/api';
 
@@ -14,8 +15,9 @@ export default class NewDeck extends Component {
 
   submit = () => {
     saveDeckTitle(this.state.input).then(() => {
+        DismissKeyboard();
         this.setState({input: ''})
-        this.props.navigation.navigate('DeckList')
+        this.props.navigation.navigate('DeckList', { needsUpdate: true })
       }
     );
   }
@@ -24,7 +26,7 @@ export default class NewDeck extends Component {
     const input = this.state.input;
 
     return (
-      <View style={{flex: 1}}>
+      <View onPress={()=>{DismissKeyboard()}} style={{flex: 1}}>
         <Text>What is the title of your new deck?</Text>
         <TextInput
           value={input}
