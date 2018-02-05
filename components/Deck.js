@@ -10,18 +10,20 @@ export default class Deck extends Component {
     }
   }
 
-  componentDidMount() {
-    const deckTitle = this.props.navigation.state.params.deckTitle;
+  refreshDeck = (deckTitle) => {
     getDeck(deckTitle).then((result) => {
       this.setState({deck: result});
     });
   }
 
+  componentDidMount() {
+    const deckTitle = this.props.navigation.state.params.deckTitle;
+    this.refreshDeck(deckTitle);
+  }
+
   componentWillReceiveProps() {
-      const deckTitle = this.props.navigation.state.params.deckTitle;
-      getDeck(deckTitle).then((result) => {
-        this.setState({deck: result});
-      });
+    const deckTitle = this.props.navigation.state.params.deckTitle;
+    this.refreshDeck(deckTitle);
   }
 
   render() {
@@ -32,11 +34,19 @@ export default class Deck extends Component {
         <Text>Number of cards: {deck.questions.length}</Text>
         <Button 
             title={'Add Card'}
-            onPress={() => this.props.navigation.navigate('NewCard', {deckTitle: deck.title})}
+            onPress={() => this.props.navigation.navigate('NewCard', {
+              deckTitle: deck.title,
+              refresh: this.props.navigation.state.params.refresh,
+              refreshDeck: this.refreshDeck
+            })}
         />
         <Button 
             title={'Start Quiz'}
             onPress={() => this.props.navigation.navigate('Quiz')}
+        />
+        <Button 
+            title={'Show Deck List'}
+            onPress={() => this.props.navigation.navigate('Home')}
         />
       </View>
     );

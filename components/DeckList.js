@@ -7,17 +7,23 @@ export default class DeckList extends Component {
     decks: null
   }
 
-  componentDidMount() {
-    //clearDecks();
+  refresh = () => {
     getDecks().then((result) => {
       this.setState({decks: result});
     });
   }
 
+  testFunction = () => {
+    console.log('called');
+  }
+
+  componentDidMount() {
+    //clearDecks();
+    this.refresh();
+  }
+
   componentWillReceiveProps() {
-      getDecks().then((result) => {
-        this.setState({decks: result});
-      });
+    this.refresh();
   }
 
   render() {
@@ -35,7 +41,8 @@ export default class DeckList extends Component {
                       title={'Show deck details'}
                       onPress={() => this.props.navigation.navigate(
                         'DeckDetail', {
-                          deckTitle: decks[key].title
+                          deckTitle: decks[key].title,
+                          refresh: this.refresh
                         }
                       )}
                   />
