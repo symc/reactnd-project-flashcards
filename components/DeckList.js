@@ -13,10 +13,6 @@ export default class DeckList extends Component {
     });
   }
 
-  testFunction = () => {
-    console.log('called');
-  }
-
   componentDidMount() {
     //clearDecks();
     this.refresh();
@@ -29,6 +25,7 @@ export default class DeckList extends Component {
   render() {
     if (this.state.decks) {
       const deckKeys = Object.keys(this.state.decks);
+      deckKeys.sort();
       const decks = this.state.decks;
       return (
         <View style={{flex: 1}}>

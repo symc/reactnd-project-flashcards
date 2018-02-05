@@ -42,7 +42,10 @@ export default class Deck extends Component {
         />
         <Button 
             title={'Start Quiz'}
-            onPress={() => this.props.navigation.navigate('Quiz')}
+            onPress={() => this.props.navigation.navigate('Quiz', {
+              deckTitle: deck.title,
+              refresh: this.props.navigation.state.params.refresh
+            })}
         />
         <Button 
             title={'Show Deck List'}
