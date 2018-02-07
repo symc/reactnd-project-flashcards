@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { Text, View, Button } from 'react-native';
-import { getDeck } from '../utils/api'; 
+import { getDeck } from '../utils/api';
+import { setLocalNotification, clearLocalNotification } from '../utils/helpers';
 
 export default class Quiz extends Component {
   state = {
     questionNo: 0,
     deck: null,
-    correctAnswers: 0
+    correctAnswers: 0,
+    isCompleted: false
   };
 
   refreshDeck = (deckTitle) => {
@@ -14,6 +16,26 @@ export default class Quiz extends Component {
       this.setState({deck: result});
     });
   }
+
+  restartQuiz = () => clearLocalNotification()
+    .then(setLocalNotification())
+    .then(() => {
+      const questionNo = this.state.questionNo;
+      const correctAnswers = this.state.correctAnswers;
+      this.setState({
+        correctAnswers: 0,
+        questionNo: 0
+      })
+    });
+
+  backToDeck = (deckTitle, refresh) => clearLocalNotification()
+    .then(setLocalNotification())
+    .then(() => this.props.navigation.navigate(
+      'DeckDetail', {
+        deckTitle: deckTitle,
+        refresh: refresh
+      }
+    ));
 
   componentDidMount() {
     const deckTitle = this.props.navigation.state.params.deckTitle;
@@ -69,24 +91,18 @@ export default class Quiz extends Component {
       );
     } else {
       const correctAnswers = this.state.correctAnswers;
+      const ratio = (this.state.deck) ? 100.0 * correctAnswers/(this.state.deck.questions.length) : 0.0;
       return (
         <View style={{flex: 1}}>
           <Text>Number of questions answered correctly: {correctAnswers}</Text>
+          <Text>Percentage of correct answers: {ratio}%</Text>
           <Button 
             title={'Restart Quiz'}
-            onPress={() => this.setState({
-              correctAnswers: 0,
-              questionNo: 0
-            })}
+            onPress={this.restartQuiz}
           />
           <Button 
             title={'Back to Deck'}
-            onPress={() => this.props.navigation.navigate(
-              'DeckDetail', {
-                deckTitle: deckTitle,
-                refresh: refresh
-              }
-            )}
+            onPress={() => this.backToDeck(deckTitle, refresh)}
           />
         </View>
       );

@@ -7,6 +7,8 @@ import Deck from './components/Deck';
 import Quiz from './components/Quiz';
 import NewCard from './components/NewCard';
 import { purple, white } from './utils/colors';
+import { setLocalNotification } from './utils/helpers';
+import { Notifications, Permissions } from 'expo';
 
 
 const Tabs = TabNavigator({
@@ -73,6 +75,18 @@ const MainNavigator = StackNavigator({
 
 
 export default class App extends Component {
+  componentDidMount() {
+    setLocalNotification()
+    // TODO: Remove the following listener after code review
+    // The listener is added for making the job of the reviewer
+    // easy in case the reviewer needs to debug the functionality
+    // of the listener
+    Notifications.addListener((notification) => {
+      console.log('received', notification);
+      this.setState({ received: true })
+    });
+  }
+
   render() {
     return (
       <View style={{flex: 1}}>
