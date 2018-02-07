@@ -13,12 +13,14 @@ const Tabs = TabNavigator({
   DeckList: {
     screen: DeckList,
     navigationOptions: {
+      title: 'Decks',
       tabBarLabel: 'DECKS',
     },
   },
   NewDeck: {
     screen: NewDeck,
     navigationOptions: {
+      title: 'Create New Deck',
       tabBarLabel: 'NEW DECK',
     }
   }
@@ -28,7 +30,6 @@ const MainNavigator = StackNavigator({
   Home: {
     screen: Tabs,
     navigationOptions: {
-      title: 'Decks',
       headerLeft: null,
       headerTintColor: white,
       headerStyle: {
@@ -40,6 +41,7 @@ const MainNavigator = StackNavigator({
     screen: Deck,
     navigationOptions: {
       title: 'Deck Details',
+      headerLeft: null,
       headerTintColor: white,
       headerStyle: {
         backgroundColor: purple,

@@ -28,7 +28,10 @@ export default class NewCard extends Component {
         this.setState({question: '', answer: ''});
         this.props.navigation.state.params.refresh();
         this.props.navigation.state.params.refreshDeck(deckTitle);
-        this.props.navigation.navigate('DeckDetail', { deckTitle: deckTitle })
+        this.props.navigation.navigate('DeckDetail', {
+          deckTitle: deckTitle,
+          refresh: this.props.navigation.state.params.refresh
+        })
       }
     );
   }

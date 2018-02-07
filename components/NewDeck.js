@@ -14,10 +14,14 @@ export default class NewDeck extends Component {
   }
 
   submit = () => {
-    saveDeckTitle(this.state.input).then(() => {
+    const deckTitle = this.state.input;
+    saveDeckTitle(deckTitle).then(() => {
         DismissKeyboard();
         this.setState({input: ''})
-        this.props.navigation.navigate('DeckList', { needsUpdate: true })
+        this.props.navigation.navigate('DeckDetail', {
+          deckTitle: deckTitle,
+          refresh: () => {}
+        })
       }
     );
   }
