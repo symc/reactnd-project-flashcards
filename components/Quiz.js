@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, Button, StyleSheet } from 'react-native';
+import { Text, View, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { getDeck } from '../utils/api';
 import { setLocalNotification, clearLocalNotification } from '../utils/helpers';
 import FlipCard from 'react-native-flip-card';
-import { green } from '../utils/colors';
+import { green, red, purple, black, white } from '../utils/colors';
 
 export default class Quiz extends Component {
   state = {
@@ -75,8 +75,8 @@ export default class Quiz extends Component {
             </View>
           </FlipCard>
           <View style={styles.bottomContainer}>
-            <Button
-              title={'Correct'}
+            <TouchableOpacity
+              style={styles.correctButton}
               onPress={() => {
                 const questionNo = this.state.questionNo;
                 const correctAnswers = this.state.correctAnswers;
@@ -85,35 +85,54 @@ export default class Quiz extends Component {
                   questionNo: questionNo + 1
                 }
               )}}
-            />
-            <Button
-              title={'Incorrect'}
+            >
+              <View>
+                <Text style={styles.buttonText}>Correct</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.incorrectButton}
               onPress={() => {
                 const questionNo = this.state.questionNo;
                 this.setState({
                   questionNo: questionNo + 1
                 }
               )}}
-            />
-            <Button 
-              title={'Abort Quiz'}
+            >
+              <View>
+                <Text style={styles.buttonText}>Incorrect</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.abortButton}
               onPress={() => this.props.navigation.navigate(
                 'DeckDetail', {
                   deckTitle: deckTitle,
                   refresh: refresh
                 }
               )}
-            />
+            >
+              <View>
+                <Text style={styles.buttonText}>Abort Quiz</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       );
     } else {
       const correctAnswers = this.state.correctAnswers;
       const ratio = (this.state.deck) ? 100.0 * correctAnswers/(this.state.deck.questions.length) : 0.0;
+      let percentageText = (this.state.deck && this.state.deck.questions.length > 0) ? 
+        `Percentage of correct answers: ${Number.parseFloat(ratio).toPrecision(4)}%` : 
+        `There is no point to compute the percentage. You did not add any cards yet :)`;
       return (
         <View style={styles.container}>
-          <Text>Number of questions answered correctly: {correctAnswers}</Text>
-          <Text>Percentage of correct answers: {ratio}%</Text>
+          <Text style={styles.explanationText}>
+            Number of questions answered correctly: {correctAnswers}
+          </Text>
+          <Text style={styles.explanationText}>
+            {percentageText}
+          </Text>
           <Button 
             title={'Restart Quiz'}
             onPress={this.restartQuiz}
@@ -160,5 +179,47 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     marginTop: 150
+  },
+  buttonText: {
+    color: white,
+    fontSize: 30,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontFamily: 'Courier'
+  },
+  correctButton: {
+    borderWidth: 1,
+    alignSelf: 'center',
+    width: 300,
+    borderColor: black,
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: green
+  },
+  incorrectButton: {
+    borderWidth: 1,
+    alignSelf: 'center',
+    width: 300,
+    borderColor: black,
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: red
+  },
+  abortButton: {
+    borderWidth: 1,
+    alignSelf: 'center',
+    width: 300,
+    borderColor: black,
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: purple
+  },
+  explanationText: {
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: black,
+    marginTop: 10,
+    marginBottom: 10
   }
 })

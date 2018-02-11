@@ -9,6 +9,7 @@ import NewCard from './components/NewCard';
 import { purple, white } from './utils/colors';
 import { setLocalNotification } from './utils/helpers';
 import { Notifications, Permissions } from 'expo';
+import { black } from './utils/colors';
 
 
 const Tabs = TabNavigator({
@@ -16,14 +17,22 @@ const Tabs = TabNavigator({
     screen: DeckList,
     navigationOptions: {
       title: 'Decks',
-      tabBarLabel: 'DECKS',
-    },
+      tabBarLabel: 'DECKS'
+    }
   },
   NewDeck: {
     screen: NewDeck,
     navigationOptions: {
       title: 'Create New Deck',
-      tabBarLabel: 'NEW DECK',
+      tabBarLabel: 'NEW DECK'
+    }
+  }
+}, {
+  tabBarOptions: {
+    showIcon: false,
+    labelStyle: {
+      fontSize: 20,
+      fontWeight: 'bold'
     }
   }
 });

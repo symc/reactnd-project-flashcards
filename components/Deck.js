@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, Button } from 'react-native';
-import { getDeck } from '../utils/api'; 
+import { Text, View, Button, StyleSheet } from 'react-native';
+import { getDeck } from '../utils/api';
+import {lightGray } from '../utils/colors';
 
 export default class Deck extends Component {
   state = {
@@ -26,12 +27,25 @@ export default class Deck extends Component {
     this.refreshDeck(deckTitle);
   }
 
+  numberOfCardsText = (number) => {
+    if (number === 0) {
+      return `No cards`
+    }
+    let text = `${number} card`;
+    if (number > 1) text += 's';
+    return text;
+  }
+
   render() {
     const deck = this.state.deck;
     return (
-      <View style={{flex: 1}}>
-        <Text>Deck name: {deck.title}</Text>
-        <Text>Number of cards: {deck.questions.length}</Text>
+      <View style={styles.container}>
+        <Text style={styles.deckTitle}>
+          {deck.title}
+        </Text>
+        <Text style={styles.deckNumber}>
+          {this.numberOfCardsText(deck.questions.length)}
+        </Text>
         <Button 
             title={'Add Card'}
             onPress={() => this.props.navigation.navigate('NewCard', {
@@ -55,3 +69,24 @@ export default class Deck extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start'
+  },
+  deckTitle: {
+    fontSize: 30,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginTop: 10,
+  },
+  deckNumber: {
+    fontFamily: 'Courier',
+    textAlign: 'center',
+    fontSize: 30,
+    color: lightGray,
+    marginTop: 10,
+    marginBottom: 30
+  }
+})

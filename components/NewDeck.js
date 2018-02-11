@@ -30,8 +30,10 @@ export default class NewDeck extends Component {
     const input = this.state.input;
 
     return (
-      <View onPress={()=>{DismissKeyboard()}} style={{flex: 1}}>
-        <Text>What is the title of your new deck?</Text>
+      <View onPress={()=>{DismissKeyboard()}} style={styles.container}>
+        <Text style={styles.questionText}
+          >What is the title of your new deck?
+        </Text>
         <TextInput
           value={input}
           style={styles.input}
@@ -47,11 +49,27 @@ export default class NewDeck extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
   input: {
     backgroundColor: white,
     width: 300,
     height: 50,
     borderWidth: 1,
-    borderColor: black
+    borderColor: black,
+    borderRadius: 15,
+    alignSelf: 'center',
+    fontFamily: 'Courier',
+    fontSize: 20
+  },
+  questionText: {
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: black,
+    marginTop: 10,
+    marginBottom: 10
   }
 })

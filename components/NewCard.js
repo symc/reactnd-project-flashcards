@@ -3,6 +3,7 @@ import { Text, View, TextInput, StyleSheet, Button, Picker } from 'react-native'
 import { white, black } from '../utils/colors';
 import { addCardToDeck } from '../utils/api';
 import DismissKeyboard from 'dismissKeyboard';
+import { gray } from '../utils/colors';
 
 export default class NewCard extends Component {
   state = {
@@ -42,14 +43,17 @@ export default class NewCard extends Component {
     const answer = this.state.answer;
     return (
       <View style={{flex: 1}}>
-        <Text>Add card to {deckTitle}</Text>
-        <Text>Enter the question:</Text>
+        <Text style={styles.questionText}>
+          What is the question?
+        </Text>
         <TextInput
           value={question}
           style={styles.input}
           onChangeText={this.handleQuestionChange}
         />
-        <Text>Enter the answer:</Text>
+        <Text style={styles.questionText}>
+          What is the answer?
+        </Text>
         <TextInput
           value={answer}
           style={styles.input}
@@ -65,11 +69,27 @@ export default class NewCard extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+  },
   input: {
     backgroundColor: white,
     width: 300,
     height: 50,
     borderWidth: 1,
-    borderColor: black
+    borderColor: black,
+    borderRadius: 15,
+    alignSelf: 'center',
+    fontFamily: 'Courier',
+    fontSize: 20
+  },
+  questionText: {
+    fontSize: 20,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: black,
+    marginTop: 10,
+    marginBottom: 10
   }
 })
