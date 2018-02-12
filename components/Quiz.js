@@ -5,20 +5,45 @@ import { setLocalNotification, clearLocalNotification } from '../utils/helpers';
 import FlipCard from 'react-native-flip-card';
 import { green, red, purple, black, white } from '../utils/colors';
 
+/**
+  * @description Represents a view for a quiz of a deck
+  * @constructor
+*/
 export default class Quiz extends Component {
+  /*
+    Local state of a quiz has the following items
+    1) questionNo: the question number which is currently being
+    displayed in the quiz. Initially, it is zero, which designates
+    the first question
+    2) deck: The deck object on which this quiz is defined
+    3) correctAnswers: number of correct answers so far
+  */
   state = {
     questionNo: 0,
     deck: null,
-    correctAnswers: 0,
-    isCompleted: false
+    correctAnswers: 0
   };
 
+
+  /**
+  * @description refreshDeck
+  * Refresh deck view by getting the data from AsyncStorage
+  * @param {string} title - Title of the deck to be used to refresh the view
+  */
   refreshDeck = (deckTitle) => {
     getDeck(deckTitle).then((result) => {
       this.setState({deck: result});
     });
   }
 
+  /**
+  * @description restartQuiz
+  * Restarts the quiz. This function can only be called after a quiz is
+  * completed. Therefore, the function resets the local notification so that
+  * no notification will be displayed for today. After the notification is
+  * handled, the state is reset so that quiz is in the first question again
+  * and number of correct answers is zero
+  */
   restartQuiz = () => clearLocalNotification()
     .then(setLocalNotification())
     .then(() => {
@@ -30,6 +55,13 @@ export default class Quiz extends Component {
       })
     });
 
+  /**
+  * @description backToDeck
+  * Navigates back to the deck view. This function can only be called after 
+  * a quiz is completed. Therefore, the function resets the local notification
+  * so that no notification will be displayed for today. After the notification
+  * is handled, app navigates to the details page of the deck
+  */
   backToDeck = (deckTitle, refresh) => clearLocalNotification()
     .then(setLocalNotification())
     .then(() => this.props.navigation.navigate(
@@ -39,6 +71,10 @@ export default class Quiz extends Component {
       }
     ));
 
+  /**
+  * @description componentDidMount method of Quiz
+  * Refresh the quiz using the deck title provided in the params
+  */
   componentDidMount() {
     const deckTitle = this.props.navigation.state.params.deckTitle;
     this.refreshDeck(deckTitle);
@@ -47,18 +83,33 @@ export default class Quiz extends Component {
     });
   }
 
+  /*
+    Either renders a question or summary of the quiz.
+    Question: Display the question number along with the total number of questions. Question
+    is displayed on a flippable view. By clicking on the flippable panel, the user can 
+    see the answer. The user self-grades her answer by clicking on Correct or Incorrect. 
+    It is also possible for the user to abort the quiz.
+    Summary: Number of correct questions and percentage of correct answers are displayed.
+    The user can restart the quiz or go back to the detailed view of the deck. 
+  */
   render() {
+    // Get the current question if applicable
     const questionNo = this.state.questionNo;
     const totalNumberOfCards = (this.state.deck) ? this.state.deck.questions.length : 0;
     const currQuestion = (this.state.deck && (questionNo < totalNumberOfCards)) ?
       this.state.deck.questions[questionNo] : null;
+    // Get the deck title and refresh function for the deck list view
     const deckTitle = this.props.navigation.state.params.deckTitle;
     const refresh = this.props.navigation.state.params.refresh;
     if (currQuestion) {
+      /*
+        Question view is rendered if we have a question to display
+      */
       const question = (currQuestion) ? currQuestion.question : '';
       const answer = (currQuestion) ? currQuestion.answer : '';
       return (
         <View style={styles.container}>
+          {/* Show question number and total number of questions */}
           <Text style={styles.remainingQuestions}>
             Question {questionNo+1} of {totalNumberOfCards}
           </Text>
@@ -120,6 +171,9 @@ export default class Quiz extends Component {
         </View>
       );
     } else {
+      /*
+        Otherwise, we display the summary
+      */
       const correctAnswers = this.state.correctAnswers;
       const ratio = (this.state.deck) ? 100.0 * correctAnswers/(this.state.deck.questions.length) : 0.0;
       let percentageText = (this.state.deck && this.state.deck.questions.length > 0) ? 
@@ -147,6 +201,9 @@ export default class Quiz extends Component {
   }
 }
 
+/*
+  Styles used in this component
+*/
 const styles = StyleSheet.create({
   container: {
     flex: 1,

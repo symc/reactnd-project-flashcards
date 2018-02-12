@@ -1,28 +1,50 @@
 import React, { Component } from 'react';
-import { Text, View, TouchableOpacity, Button, FlatList, StyleSheet } from 'react-native';
+import { Text, View, TouchableOpacity, Button, FlatList, StyleSheet, ScrollView } from 'react-native';
 import { getDecks, clearDecks, saveDeckTitle } from '../utils/api';
 import { blue, black, white, lightGray } from '../utils/colors';
 
+/**
+* @description Represents a component which lists the decks
+* @constructor
+*/
 export default class DeckList extends Component {
   state = {
     decks: null
   }
 
+  /**
+  * @description refresh
+  * Refresh deck list view by getting the data from AsyncStorage
+  */
   refresh = () => {
     getDecks().then((result) => {
       this.setState({decks: result});
     });
   }
 
+  /**
+  * @description componentDidMount method of DeckList
+  * Refresh the deck list view
+  */
   componentDidMount() {
-    //clearDecks();
     this.refresh();
   }
 
+  /**
+  * @description componentWillReceiveProps method of DeckList
+  * Refresh the deck list view
+  */
   componentWillReceiveProps() {
     this.refresh();
   }
 
+  /**
+  * @description numberOfCardsText
+  * Given a number, returns a text to be displayed that tells the user
+  * the number of cards the deck has
+  * @param {int} number - Number of cards
+  * @returns {string} - String that has the information about number of cards
+  */
   numberOfCardsText = (number) => {
     if (number === 0) {
       return `No cards`
@@ -34,11 +56,19 @@ export default class DeckList extends Component {
 
   render() {
     if (this.state.decks) {
+      /*
+        If there are decks in the AsyncStorage, display them
+      */
       const deckKeys = Object.keys(this.state.decks);
+      // Sort the decks so that they will be displayed in alphabetical (title) order
       deckKeys.sort();
       const decks = this.state.decks;
+      /*
+        Render a TouchableOpacity for each deck. On clicking TouchableOpacity, deck
+        detail will be displayed
+      */
       return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
           {deckKeys.map((key) => {
               return (
                 <View key={key}>
@@ -64,9 +94,13 @@ export default class DeckList extends Component {
               );
             }
           )}
-        </View>
+        </ScrollView>
       );
     } else {
+      /*
+        If no decks has been created yet, display a message which states
+        that no decks have been created so far.
+      */
       return (
         <View style={styles.container}>
           <Text style={styles.explanationText}>
@@ -81,10 +115,12 @@ export default class DeckList extends Component {
   }
 }
 
+/*
+  Styles used in this component
+*/
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'flex-start'
+    flex: 1
   },
   deckContainer: {
     backgroundColor: blue,

@@ -1,5 +1,8 @@
 // utils/colors.js
 
+/*
+    This file contains constants for specific colors
+*/
 export const purple = '#292477'
 export const gray = '#757575'
 export const lightGray = '#a5a5a5'

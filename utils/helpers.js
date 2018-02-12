@@ -1,14 +1,26 @@
 import { AsyncStorage } from 'react-native';
 import { Notifications, Permissions } from 'expo';
 
+/*
+    Storage key for notification objects is defined here
+*/
 const NOTIFICATION_KEY = 'MobileFlashcards:notifications';
 
+/**
+* @description clearLocalNotifications
+* Clear all local notifications
+* @returns {Promise} - Returns a promise after modifying the deck
+*/
 export function clearLocalNotification() {
     return AsyncStorage.removeItem(NOTIFICATION_KEY)
         .then(Notifications.cancelAllScheduledNotificationsAsync)
 }
 
-
+/**
+* @description createNotification
+* Create the notification object to be displayed
+* @returns {Object} - Returns a notification object
+*/
 function createNotification() {
     return {
         title: 'Practice!',
@@ -25,6 +37,14 @@ function createNotification() {
     }
 }
 
+/**
+* @description setLocalNotification
+* Sets a local notification to remind that the user needs to practice
+* The function first asks for permission for local notifications, if the
+* permission has not been requested yet. If the permission is granted, a
+* local notification is created for every day at 17:00, local time
+* @returns {Promise} - Returns a promise after creating the notification
+*/
 export function setLocalNotification() {
     AsyncStorage.getItem(NOTIFICATION_KEY)
     .then(JSON.parse)
