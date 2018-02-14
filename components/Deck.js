@@ -80,7 +80,7 @@ export default class Deck extends Component {
         <Text style={styles.deckNumber}>
           {this.numberOfCardsText(deck.questions.length)}
         </Text>
-        <Button 
+        <Button
             title={'Create New Question'}
             onPress={() => this.props.navigation.navigate('NewCard', {
               deckTitle: deck.title,
@@ -88,14 +88,14 @@ export default class Deck extends Component {
               refreshDeck: this.refreshDeck
             })}
         />
-        <Button 
+        <Button
             title={'Start Quiz'}
             onPress={() => this.props.navigation.navigate('Quiz', {
               deckTitle: deck.title,
               refresh: this.props.navigation.state.params.refresh
             })}
         />
-        <Button 
+        <Button
             title={'Show Deck List'}
             onPress={() => this.props.navigation.navigate('Home')}
         />
@@ -119,7 +119,6 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   deckNumber: {
-    fontFamily: 'Courier',
     textAlign: 'center',
     fontSize: 30,
     color: lightGray,

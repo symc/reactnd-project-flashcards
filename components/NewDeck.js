@@ -87,7 +87,6 @@ const styles = StyleSheet.create({
     borderColor: black,
     borderRadius: 15,
     alignSelf: 'center',
-    fontFamily: 'Courier',
     fontSize: 20
   },
   questionText: {
@@ -96,6 +95,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: black,
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 50
   }
 })

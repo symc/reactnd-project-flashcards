@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Text, View, Button, StyleSheet, TouchableOpacity } from 'react-native';
 import { getDeck } from '../utils/api';
 import { setLocalNotification, clearLocalNotification } from '../utils/helpers';
-import FlipCard from 'react-native-flip-card';
 import { green, red, purple, black, white } from '../utils/colors';
 
 /**
@@ -21,7 +20,8 @@ export default class Quiz extends Component {
   state = {
     questionNo: 0,
     deck: null,
-    correctAnswers: 0
+    correctAnswers: 0,
+    showQuestion: true
   };
 
 
@@ -86,7 +86,7 @@ export default class Quiz extends Component {
   /*
     Either renders a question or summary of the quiz.
     Question: Display the question number along with the total number of questions. Question
-    is displayed on a flippable view. By clicking on the flippable panel, the user can 
+    is displayed on a panel By clicking on the button below the panel, the user can 
     see the answer. The user self-grades her answer by clicking on Correct or Incorrect. 
     It is also possible for the user to abort the quiz.
     Summary: Number of correct questions and percentage of correct answers are displayed.
@@ -113,18 +113,14 @@ export default class Quiz extends Component {
           <Text style={styles.remainingQuestions}>
             Question {questionNo+1} of {totalNumberOfCards}
           </Text>
-          <FlipCard style={styles.flipCard}>
-            {/* Face side shows the question */}
-            <View style={styles.frontCard}>
-              <Text style={styles.questionAnswer}>{question}</Text>
-              <Text style={styles.flipToSee}>Click to see the answer</Text>
-            </View>
-            {/* Back side shows the answer*/}
-            <View style={styles.backCard}>
-              <Text style={styles.questionAnswer}>{answer}</Text>
-              <Text style={styles.flipToSee}>Click to see the question</Text>
-            </View>
-          </FlipCard>
+          <View style={this.state.showQuestion ? styles.frontCard: styles.backCard}>
+              <Text style={styles.questionAnswer}>{this.state.showQuestion ? question: answer}</Text>
+          </View>
+          <Button
+            style={styles.buttonStyle}
+            title={this.state.showQuestion ? 'Show Answer' : 'Show Question'}
+            onPress={() => this.setState({showQuestion: !this.state.showQuestion})}
+          />
           <View style={styles.bottomContainer}>
             <TouchableOpacity
               style={styles.correctButton}
@@ -187,11 +183,13 @@ export default class Quiz extends Component {
           <Text style={styles.explanationText}>
             {percentageText}
           </Text>
-          <Button 
+          <Button
+            style={styles.buttonStyle}
             title={'Restart Quiz'}
             onPress={this.restartQuiz}
           />
-          <Button 
+          <Button
+            style={styles.buttonStyle}
             title={'Back to Deck'}
             onPress={() => this.backToDeck(deckTitle, refresh)}
           />
@@ -206,18 +204,16 @@ export default class Quiz extends Component {
 */
 const styles = StyleSheet.create({
   container: {
+    justifyContent: 'flex-start',
     flex: 1,
-    justifyContent: 'flex-start'
+    alignSelf: 'center'
   },
   remainingQuestions: {
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 15,
     marginBottom: 20,
-  },
-  flipCard: {
-    alignSelf: 'center',
-    borderWidth: 0
+    height: 20
   },
   frontCard: {
     backgroundColor: '#d3d3d3'
@@ -230,19 +226,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold'
   },
-  flipToSee: {
-    fontFamily: 'Courier',
-    fontSize: 20
-  },
   bottomContainer: {
-    marginTop: 150
+    marginTop: 50,
   },
   buttonText: {
     color: white,
     fontSize: 30,
     textAlign: 'center',
     fontWeight: 'bold',
-    fontFamily: 'Courier'
   },
   correctButton: {
     borderWidth: 1,

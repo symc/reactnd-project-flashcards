@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, StyleSheet, Button, Picker } from 'react-native';
+import { Text, View, TextInput, StyleSheet, Button, Picker, TouchableOpacity } from 'react-native';
 import { white, black } from '../utils/colors';
 import { addCardToDeck } from '../utils/api';
 import DismissKeyboard from 'dismissKeyboard';
@@ -119,7 +119,6 @@ const styles = StyleSheet.create({
     borderColor: black,
     borderRadius: 15,
     alignSelf: 'center',
-    fontFamily: 'Courier',
     fontSize: 20
   },
   questionText: {

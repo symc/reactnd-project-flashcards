@@ -138,7 +138,6 @@ const styles = StyleSheet.create({
     color: white
   },
   deckNumber: {
-    fontFamily: 'Courier',
     textAlign: 'center',
     fontSize: 20,
     color: lightGray
@@ -148,5 +147,5 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     marginTop: 10
-  },
+  }
 })

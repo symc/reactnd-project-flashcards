@@ -17,14 +17,10 @@ Whenever a user clicks on one of the decks in the deck list or creates a new dec
 Users can create a new question by going to the details page of a deck and pressing 'Create New Question'. The app will navigate to a page with two input text fields. The first text field is for the question and the second is for the answer. After entering the question and the answer, the user can press 'Submit' to save the question to the deck. After pressing 'Submit', the user will be navigated to the deck details view.
 
 ### Quiz
-Users can self-test their knowledge about a deck by going to the details page of a deck and pressing 'Start Quiz'. The app will navigate to a quiz page where for each question in the deck, there will be a screen with a flippable panel. Initially, the panel shows front view of the panel, which displays the question. The back side of the panel shows the answer and the user can click on the panel to switch to the other side of the panel. After answering the question and checking the answer, the user marks his answer as 'Correct' or 'Incorrect' to go to the next question. After answering all questions, the total number of correct answers and the percentage of correct answers are displayed in a summary section. The user can restart the quiz or go back to the detailed deck view after completing a quiz. During the quiz, the user can press 'Abort Quiz' to abort the quiz and go back to the deck details view.
+Users can self-test their knowledge about a deck by going to the details page of a deck and pressing 'Start Quiz'. The app will navigate to a quiz page where for each question in the deck, there will be a screen with a panel. Initially, the panel shows displays the question. The back side of the panel shows the answer and the user can click on the button 'Show Answer' to display it. After answering the question and checking the answer, the user marks his answer as 'Correct' or 'Incorrect' to go to the next question. After answering all questions, the total number of correct answers and the percentage of correct answers are displayed in a summary section. The user can restart the quiz or go back to the detailed deck view after completing a quiz. During the quiz, the user can press 'Abort Quiz' to abort the quiz and go back to the deck details view.
 
 ### Notifications
 The app requires permission to send local notifications. If the user does not completes a quiz on a given day, the app sends a reminder to the user at 17:00 PM (User's timezone). 
-
-## Known issues
-
-None
 
 ## Installation
 
@@ -36,3 +32,9 @@ You can follow the directions below to install and run the app:
 - Install all project dependencies with `npm install`
 - Start the app with `npm start`
 - Follow the instruction on the terminal to open the app using Expo or one of the simulators
+
+3. If you have not installed Watchmen, npm start may error out in the first run. Follow the provided instructions by npm and restart the app using `npm start`. For more details, please check
+https://github.com/react-community/create-react-native-app/issues/234
+
+## Supported Platform
+This app is tested on iPhone 6, iPhone X and Samsung Galaxy S8.
