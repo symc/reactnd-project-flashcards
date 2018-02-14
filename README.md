@@ -36,5 +36,5 @@ You can follow the directions below to install and run the app:
 3. If you have not installed Watchmen, npm start may error out in the first run. Follow the provided instructions by npm and restart the app using `npm start`. For more details, please check
 https://github.com/react-community/create-react-native-app/issues/234
 
-## Supported Platform
+## Supported Platforms
 This app is tested on iPhone 6, iPhone X and Samsung Galaxy S8.
